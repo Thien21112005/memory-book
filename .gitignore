@@ -1,0 +1,64 @@
+# ── Bí mật — QUAN TRỌNG NHẤT ────────────────────────────────────────
+# Không bao giờ commit. Nếu lỡ commit, coi như bí mật đã lộ vĩnh viễn
+# và phải xoay vòng khoá ngay — xoá khỏi lịch sử git là KHÔNG đủ.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.jks
+secrets/
+
+# ── Java / Maven ────────────────────────────────────────────────────
+target/
+*.jar
+*.war
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/timing.properties
+dependency-reduced-pom.xml
+
+# ── Node / Vite ─────────────────────────────────────────────────────
+node_modules/
+dist/
+dist-ssr/
+.vite/
+*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ── IDE ─────────────────────────────────────────────────────────────
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+!.vscode/extensions.json
+*.swp
+*.swo
+
+# ── Hệ điều hành ────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Log & tệp tạm ───────────────────────────────────────────────────
+*.log
+logs/
+tmp/
+temp/
+
+# ── Dữ liệu cục bộ khi phát triển ───────────────────────────────────
+# Ảnh thật, dữ liệu kết xuất, bản sao lưu — không đưa lên kho mã công khai
+uploads/
+storage/
+backups/
+*.dump
+*.sql.gz
+
+# ── Ảnh thật của lớp ────────────────────────────────────────────────
+# Nếu để ảnh thật trong repo trước khi công bố, bỏ dấu chú thích dòng dưới.
+# Xem docs/MemoryBook-Security.md mục 8 về quyền riêng tư.
+# client/docs-assets/photos/

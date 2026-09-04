@@ -1,0 +1,74 @@
+Phượng Hồng Memories — Licence / Giấy phép
+===========================================
+
+This repository contains two kinds of material, licensed differently.
+Kho mã này chứa hai loại nội dung, với giấy phép khác nhau.
+
+  1. CODE — MIT Licence (full text below)
+     MÃ NGUỒN — Giấy phép MIT (toàn văn bên dưới)
+
+     Source files, stylesheets, the hand-authored SVG illustration,
+     configuration, and the engineering documents in docs/.
+     Các tệp mã nguồn, style, tranh SVG vẽ tay, cấu hình,
+     và bộ tài liệu kỹ thuật trong thư mục docs/.
+
+  2. CONTENT — All rights reserved. NOT covered by the MIT Licence.
+     NỘI DUNG — Giữ toàn bộ quyền. KHÔNG thuộc phạm vi giấy phép MIT.
+
+     Photographs of students and teachers, personal names, nicknames,
+     personal messages, and the identity of Mạc Đĩnh Chi High School.
+     Ảnh học sinh và thầy cô, tên và biệt danh cá nhân, lời nhắn cá nhân,
+     và danh tính trường THPT Mạc Đĩnh Chi.
+
+     This material is personal data belonging to real people, most of whom
+     were minors when photographed. It may not be copied, redistributed,
+     republished, or used to train machine-learning models, for any purpose,
+     without the express permission of the individuals concerned.
+
+     Đây là dữ liệu cá nhân của người thật, phần lớn còn ở tuổi vị thành niên
+     tại thời điểm chụp. Không được sao chép, phát tán lại, đăng lại, hay dùng
+     để huấn luyện mô hình học máy, vì bất kỳ mục đích nào, nếu không có sự
+     đồng ý rõ ràng của những người liên quan.
+
+     Requests to remove content: see docs/MemoryBook-Security.md section 8.
+     Yêu cầu gỡ nội dung: xem docs/MemoryBook-Security.md mục 8.
+
+
+-------------------------------------------------------------------------------
+MIT License — applies to the CODE described above
+-------------------------------------------------------------------------------
+
+Copyright (c) 2026 Nguyễn Ngọc Thiện
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+-------------------------------------------------------------------------------
+Third-party components / Thành phần của bên thứ ba
+-------------------------------------------------------------------------------
+
+Fonts are served by Google Fonts under the SIL Open Font License.
+Runtime libraries (Tailwind CSS, GSAP, Swiper, Typed.js, canvas-confetti) are
+loaded from public CDNs and remain under their own respective licences.
+Check each library's licence terms before publishing.
+
+Phông chữ do Google Fonts cung cấp theo giấy phép SIL Open Font License.
+Các thư viện chạy trên trình duyệt (Tailwind CSS, GSAP, Swiper, Typed.js,
+canvas-confetti) được nạp từ CDN công cộng và giữ nguyên giấy phép riêng của
+chúng. Hãy kiểm tra điều khoản giấy phép của từng thư viện trước khi công bố.
