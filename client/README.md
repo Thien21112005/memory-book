@@ -20,19 +20,22 @@ The client application: a single-page digital yearbook for class 12A1, Mạc Đ�
 
 ## Screenshots
 
-<!--
-Add screenshots before publishing. A visual project with no images in its README
-makes a poor first impression on GitHub.
+![Home](../docs-assets/home.webp)
+*The home section.*
 
-Suggested: capture the home hero, the schoolyard SVG scene, the gallery lightbox,
-and the message board. Save them under client/docs-assets/ and uncomment:
+![Schoolyard scene](../docs-assets/scene.webp)
+*The schoolyard scene: hand-authored SVG, no raster assets. The gate carries the school's real name, and the tree is a flamboyant (*Delonix regia*) drawn with compound leaves and orange-red flower clusters.*
 
-![Home](docs-assets/home.png)
-![Schoolyard scene](docs-assets/scene.png)
-![Gallery](docs-assets/gallery.png)
--->
+![Gallery](../docs-assets/gallery.webp)
+*The gallery: a 3D coverflow carousel above a masonry polaroid wall.*
 
-> 📸 **Not added yet.** See the comment in the source of this section for what to capture and where to put it.
+![Our class](../docs-assets/class.webp)
+*Student flip cards. Names shown are placeholders.*
+
+![Message board](../docs-assets/messages.webp)
+*The typewriter poem on ruled paper, above the sticky-note message board.*
+
+> Photographs in these screenshots are temporary AI-generated placeholders. The statistics row is omitted because its count-up animation is disabled under `prefers-reduced-motion`, which is how these were captured.
 
 ## Overview
 
@@ -276,19 +279,22 @@ See [`../LICENSE`](../LICENSE). Code and content are treated differently here, d
 
 ## Ảnh chụp màn hình
 
-<!--
-Thêm ảnh chụp màn hình trước khi công bố. Một dự án về giao diện mà README
-không có ảnh nào thì gây ấn tượng rất kém trên GitHub.
+![Trang chủ](../docs-assets/home.webp)
+*Phần trang chủ.*
 
-Nên chụp: phần hero trang chủ, tranh động sân trường, khung xem ảnh,
-và bảng lời nhắn. Lưu vào client/docs-assets/ rồi bỏ dấu chú thích:
+![Tranh sân trường](../docs-assets/scene.webp)
+*Tranh sân trường: vẽ hoàn toàn bằng SVG, không dùng ảnh bitmap. Cổng mang tên thật của trường, và cây là phượng vĩ (*Delonix regia*) vẽ với lá kép lông chim cùng các chùm hoa cam đỏ.*
 
-![Trang chủ](docs-assets/home.png)
-![Tranh sân trường](docs-assets/scene.png)
-![Thư viện ảnh](docs-assets/gallery.png)
--->
+![Thư viện ảnh](../docs-assets/gallery.webp)
+*Thư viện: băng chuyền ảnh 3D phía trên tường ảnh polaroid.*
 
-> 📸 **Chưa có.** Xem phần chú thích trong mã nguồn của mục này để biết cần chụp gì và đặt ở đâu.
+![Lớp mình](../docs-assets/class.webp)
+*Thẻ học sinh lật được. Tên hiển thị là tên mẫu.*
+
+![Bảng lời nhắn](../docs-assets/messages.webp)
+*Trang thơ gõ chữ trên giấy kẻ ô, phía trên bảng lời nhắn giấy nhớ.*
+
+> Ảnh trong các screenshot này là ảnh tạm do AI sinh. Dải thống kê bị lược bỏ vì hiệu ứng đếm số của nó tắt khi bật `prefers-reduced-motion` — chế độ dùng để chụp những ảnh này.
 
 ## Giới thiệu
 

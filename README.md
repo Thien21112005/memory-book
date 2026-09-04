@@ -12,16 +12,20 @@
 
 ## Screenshots
 
-<!--
-Ảnh chụp màn hình sẽ đặt ở đây. Lưu vào docs-assets/ rồi bỏ dấu chú thích:
+![Trang chủ — Home](docs-assets/home.webp)
 
-![Trang chủ](docs-assets/home.png)
-![Tranh động sân trường](docs-assets/scene.png)
-![Thư viện ảnh](docs-assets/gallery.png)
-![Bảng lời nhắn](docs-assets/messages.png)
--->
+<p align="center"><em>Trang chủ · Home</em></p>
 
-> 📸 *Chưa thêm / Not added yet.*
+![Tranh động sân trường — the schoolyard scene](docs-assets/scene.webp)
+
+<p align="center"><em>Tranh sân trường vẽ tay hoàn toàn bằng SVG, không dùng ảnh bitmap · The schoolyard scene, hand-authored entirely in SVG with no raster assets</em></p>
+
+![Thư viện ảnh — Gallery](docs-assets/gallery.webp)
+
+<p align="center"><em>Thư viện ảnh · Gallery</em></p>
+
+> Ảnh trong thư viện hiện là ảnh tạm do AI sinh, sẽ thay bằng ảnh thật của lớp.
+> Gallery photographs are temporary AI-generated placeholders, pending the class's own images.
 
 ---
 
