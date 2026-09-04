@@ -392,7 +392,10 @@
     .gsap-ready [data-reveal] { opacity: 1 !important; }
   }
 
-  /* ---------- In / xuất PDF ---------- */
+  /* ---------- Bản in ----------
+     Trang không còn nút xuất PDF, nhưng người dùng vẫn bấm Ctrl+P được.
+     Giữ khối này để bản in không hỏng — nhất là dòng [data-reveal] bên dưới:
+     thiếu nó thì hiệu ứng cuộn để mọi thứ ở opacity 0 và in ra trang trắng. */
   @media print {
     #loader, #petals, #scroll-progress, nav, #fab-upload, #back-to-top,
     #mobile-nav, #lightbox, #success-modal, #toast-wrap, .no-print { display: none !important; }
@@ -1516,10 +1519,7 @@
                 Chia sẻ trang
             </button>
 </div>
-<p class="text-xs text-outline font-label tracking-wide">
-            Mẹo: nhấp vào một tấm ảnh để xem cỡ lớn ·
-            <button class="underline underline-offset-2 hover:text-secondary transition-colors" data-print="1">xuất trang này ra PDF</button>
-        </p>
+<p class="text-xs text-outline font-label tracking-wide">Mẹo: nhấp vào một tấm ảnh để xem cỡ lớn</p>
 </header>
 
 <!-- Album trượt 3D -->
@@ -2936,7 +2936,7 @@ var DANH_SACH_THAY_CO = [
     });
   })();
 
-  /* ---------- Chia sẻ & xuất PDF ---------- */
+  /* ---------- Chia sẻ ---------- */
   function sharePage() {
     if (navigator.share) {
       navigator.share({ title: 'Phượng Hồng Memories', text: 'Cuốn kỷ yếu của lớp mình nè!', url: location.href })
@@ -2949,12 +2949,7 @@ var DANH_SACH_THAY_CO = [
       toast('Trình duyệt không hỗ trợ chia sẻ');
     }
   }
-  function printPage() {
-    toast('Chọn "Lưu thành PDF" trong hộp thoại in nhé!');
-    setTimeout(function () { window.print(); }, 600);
-  }
   document.getElementById('btn-share-page').addEventListener('click', sharePage);
-  document.querySelectorAll('[data-print]').forEach(function (b) { b.addEventListener('click', printPage); });
   document.querySelectorAll('[data-share]').forEach(function (b) { b.addEventListener('click', sharePage); });
 
   /* ---------- Kho ảnh: xem online & tải bản gốc ---------- */

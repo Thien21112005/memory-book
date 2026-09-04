@@ -68,7 +68,7 @@ All scene animation is gated to the viewport: nothing moves until the illustrati
 
 - **Ambient music** — a music-box melody synthesised at runtime with the Web Audio API; no audio file is required.
 - **Visitor name** — stored locally and used to pre-fill the message form.
-- **PDF export** — a dedicated print stylesheet hides navigation, particles and dialogs, and prevents cards from splitting across pages.
+- **Printing** — there is no export button, but a print stylesheet is kept so that `Ctrl+P` still produces something sensible: navigation, particles and dialogs are hidden, cards are not split across pages, and scroll-reveal elements are forced visible. Without that last rule the page prints blank, because reveal animations leave everything at `opacity: 0`.
 - **Falling petals** — a canvas particle layer that reduces its particle count on small screens and pauses when the tab is hidden.
 - **Reduced motion** — every animation is disabled when `prefers-reduced-motion: reduce` is set.
 
@@ -231,7 +231,7 @@ Accessibility measures in place:
 
 - Messages persist per browser only; a shared, permanent board requires the back-end specified in [`../server/README.md`](../server/README.md).
 - The photograph URLs are temporary placeholders (see [Photographs](#photographs)).
-- The photo archive is hosted on object storage (Cloudflare R2) and linked from the gallery; the page does not serve the files itself. PDF export is handled through the browser's print dialog.
+- The photo archive is hosted on object storage (Cloudflare R2) and linked from the gallery; the page does not serve the files itself. Printing is handled by the browser's own print dialog.
 - On viewports narrower than 768 px the scene switches to a cropped `viewBox`, so the school building sits outside the visible area.
 
 ## Versioning
@@ -324,7 +324,7 @@ Toàn bộ hoạt ảnh của tranh chỉ chạy khi tranh nằm trong khung nh�
 
 - **Nhạc nền** — giai điệu hộp nhạc được tổng hợp trực tiếp bằng Web Audio API, không cần file âm thanh.
 - **Tên người xem** — lưu tại máy và tự điền sẵn vào biểu mẫu gửi lời nhắn.
-- **Xuất PDF** — có style riêng cho bản in, ẩn thanh điều hướng, hiệu ứng hạt và hộp thoại, đồng thời tránh cắt ngang các thẻ nội dung.
+- **Bản in** — không còn nút xuất PDF, nhưng vẫn giữ style riêng cho bản in để ai bấm `Ctrl+P` vẫn ra được thứ tử tế: ẩn thanh điều hướng, hiệu ứng hạt và hộp thoại, không cắt ngang các thẻ nội dung, và ép hiện các phần tử có hiệu ứng cuộn. Thiếu quy tắc cuối cùng đó thì in ra trang trắng, vì hiệu ứng cuộn để mọi thứ ở `opacity: 0`.
 - **Hoa phượng rơi** — lớp hạt vẽ trên canvas, tự giảm số lượng trên màn hình nhỏ và tạm dừng khi người dùng chuyển tab.
 - **Giảm chuyển động** — mọi hiệu ứng tự tắt khi hệ điều hành bật `prefers-reduced-motion: reduce`.
 
@@ -487,7 +487,7 @@ Các biện pháp tiếp cận đã áp dụng:
 
 - Lời nhắn chỉ lưu trên từng trình duyệt; muốn có bảng lời nhắn chung và lâu dài thì cần back-end được đặc tả tại [`../server/README.md`](../server/README.md).
 - Đường dẫn ảnh là ảnh tạm (xem mục [Hình ảnh](#hình-ảnh)).
-- Kho ảnh đặt trên kho đối tượng (Cloudflare R2) và chỉ liên kết từ mục Thư viện; trang không tự phục vụ tệp. Việc xuất PDF đi qua hộp thoại in của trình duyệt.
+- Kho ảnh đặt trên kho đối tượng (Cloudflare R2) và chỉ liên kết từ mục Thư viện; trang không tự phục vụ tệp. Việc in đi qua hộp thoại in sẵn có của trình duyệt.
 - Với màn hình hẹp dưới 768 px, tranh động chuyển sang `viewBox` cắt hẹp nên dãy nhà trường nằm ngoài vùng nhìn thấy.
 
 ## Quản lý phiên bản
