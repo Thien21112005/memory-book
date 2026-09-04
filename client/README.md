@@ -148,6 +148,25 @@ var DANH_SACH_THAY_CO = [
 
 Cards are generated from these arrays; add or remove entries freely. Avatar colours cycle through a six-tone palette automatically.
 
+### Photo archive links
+
+The gallery header carries two buttons — **Xem toàn bộ ảnh** (view online) and **Tải bản gốc** (download the originals). Both read from one object at the top of the `<script>` block:
+
+```js
+var KHO_ANH = {
+  xem: '',        // Google Photos shared album or Drive folder — viewing link
+  thuMuc: '',     // Drive folder holding the archive parts
+  cacPhan: [      // the individual parts
+    { ten: 'KyYeu-12A1.part1.rar', dungLuong: '10 GB', link: '' },
+    …
+  ]
+};
+```
+
+Leaving a field empty is safe: the buttons stay visible but explain that the archive is not ready yet, and the parts list, the multi-part warning and the folder button hide themselves. Parts with no `link` are skipped, so you can publish them one at a time as uploads finish.
+
+**Prefer the viewing link over the download.** Most classmates open the site on a phone, where a multi-part RAR is close to unusable — iOS cannot extract one without an extra app. A shared album lets them browse and save individual photographs with no extraction at all. The download exists for the few people who want the complete set on a computer.
+
 ### Dialogue and text
 
 | Variable | Controls |
@@ -200,7 +219,7 @@ Accessibility measures in place:
 
 - Messages persist per browser only; a shared, permanent board requires the back-end specified in [`../server/README.md`](../server/README.md).
 - The photograph URLs are temporary placeholders (see [Photographs](#photographs)).
-- "Tải xuống (HD)" is presentational; PDF export is handled through the browser's print dialog.
+- The photo archive is hosted externally (Google Drive or Google Photos) and linked from the gallery; the site does not serve the files itself. PDF export is handled through the browser's print dialog.
 - On viewports narrower than 768 px the scene switches to a cropped `viewBox`, so the school building sits outside the visible area.
 
 ## Versioning
@@ -373,6 +392,25 @@ var DANH_SACH_THAY_CO = [
 
 Các thẻ được sinh ra từ hai mảng này; thêm hoặc bớt tuỳ ý. Màu avatar tự luân phiên theo bảng sáu tông.
 
+### Liên kết kho ảnh
+
+Đầu mục thư viện có hai nút — **Xem toàn bộ ảnh** và **Tải bản gốc**. Cả hai đọc từ một đối tượng duy nhất đặt ở đầu khối `<script>`:
+
+```js
+var KHO_ANH = {
+  xem: '',        // album chia sẻ Google Photos hoặc thư mục Drive — link để xem
+  thuMuc: '',     // thư mục Drive chứa các phần của bộ ảnh
+  cacPhan: [      // từng phần
+    { ten: 'KyYeu-12A1.part1.rar', dungLuong: '10 GB', link: '' },
+    …
+  ]
+};
+```
+
+Để trống thì vẫn an toàn: nút vẫn hiện nhưng báo là kho ảnh chưa sẵn sàng, còn danh sách phần, cảnh báo nhiều phần và nút mở thư mục tự ẩn đi. Phần nào chưa có `link` thì bị bỏ qua, nên bạn công bố dần từng phần theo tiến độ tải lên cũng được.
+
+**Nên ưu tiên link xem hơn link tải.** Đa số bạn bè mở trang bằng điện thoại, mà RAR nhiều phần trên điện thoại gần như không dùng được — iOS không giải nén được nếu không cài thêm ứng dụng. Album chia sẻ cho phép xem và lưu từng tấm, không cần giải nén gì cả. Phần tải về dành cho số ít muốn có trọn bộ trên máy tính.
+
 ### Lời thoại và câu chữ
 
 | Biến | Điều khiển |
@@ -425,7 +463,7 @@ Các biện pháp tiếp cận đã áp dụng:
 
 - Lời nhắn chỉ lưu trên từng trình duyệt; muốn có bảng lời nhắn chung và lâu dài thì cần back-end được đặc tả tại [`../server/README.md`](../server/README.md).
 - Đường dẫn ảnh là ảnh tạm (xem mục [Hình ảnh](#hình-ảnh)).
-- Nút "Tải xuống (HD)" hiện chỉ mang tính minh hoạ; việc xuất PDF đi qua hộp thoại in của trình duyệt.
+- Kho ảnh được đặt ở dịch vụ ngoài (Google Drive hoặc Google Photos) và chỉ liên kết từ mục thư viện; trang không tự phục vụ tệp. Việc xuất PDF đi qua hộp thoại in của trình duyệt.
 - Với màn hình hẹp dưới 768 px, tranh động chuyển sang `viewBox` cắt hẹp nên dãy nhà trường nằm ngoài vùng nhìn thấy.
 
 ## Quản lý phiên bản

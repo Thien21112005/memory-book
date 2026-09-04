@@ -1503,16 +1503,23 @@
             Lưu giữ tiếng cười trong lớp học và những hạt bụi vàng của buổi chiều tan trường.
         </p>
 <div class="flex flex-wrap justify-center gap-3 mb-4">
-<button class="btn-glow bg-secondary text-on-secondary px-7 py-3.5 rounded-full font-bold shadow-lg shadow-secondary/25 hover:scale-105 transition-transform flex items-center gap-2" id="btn-print">
-<span class="material-symbols-outlined">picture_as_pdf</span>
-                Xuất kỷ yếu ra PDF
+<button class="btn-glow bg-secondary text-on-secondary px-7 py-3.5 rounded-full font-bold shadow-lg shadow-secondary/25 hover:scale-105 transition-transform flex items-center gap-2" id="btn-view-album">
+<span class="material-symbols-outlined">photo_library</span>
+                Xem toàn bộ ảnh
+            </button>
+<button class="bg-surface-container-lowest text-primary px-7 py-3.5 rounded-full font-bold shadow-sm hover:scale-105 transition-transform flex items-center gap-2" id="btn-download-album">
+<span class="material-symbols-outlined">download</span>
+                Tải bản gốc
             </button>
 <button class="bg-surface-container-lowest text-primary px-7 py-3.5 rounded-full font-bold shadow-sm hover:scale-105 transition-transform flex items-center gap-2" id="btn-share-page">
 <span class="material-symbols-outlined">share</span>
                 Chia sẻ trang
             </button>
 </div>
-<p class="text-xs text-outline font-label tracking-wide">Mẹo: nhấp vào một tấm ảnh để xem cỡ lớn</p>
+<p class="text-xs text-outline font-label tracking-wide">
+            Mẹo: nhấp vào một tấm ảnh để xem cỡ lớn ·
+            <button class="underline underline-offset-2 hover:text-secondary transition-colors" data-print="1">xuất trang này ra PDF</button>
+        </p>
 </header>
 
 <!-- Album trượt 3D -->
@@ -1990,9 +1997,69 @@
 </div>
 </div>
 
+<!-- ============ TẢI BỘ ẢNH GỐC ============ -->
+<div aria-labelledby="archive-title" aria-modal="true" class="hidden fixed inset-0 z-[120] items-center justify-center p-4 sm:p-6 bg-on-surface/45 backdrop-blur-sm no-print" id="archive-modal" role="dialog">
+<div class="relative w-full max-w-lg glass-card rounded-xl p-7 sm:p-10 shadow-[0_12px_40px_rgba(124,85,86,0.25)] max-h-[88vh] overflow-y-auto" id="archive-panel">
+<button aria-label="Đóng" class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-all" id="archive-close">
+<span class="material-symbols-outlined">close</span>
+</button>
+<div class="text-center mb-6">
+<span class="material-symbols-outlined text-5xl text-secondary mb-2 block">folder_zip</span>
+<h2 class="font-headline text-2xl sm:text-3xl text-editorial-gradient font-bold italic leading-tight" id="archive-title">
+                Tải bộ ảnh gốc
+            </h2>
+</div>
+
+<!-- Gợi ý xem online trước -->
+<div class="rounded-lg bg-surface-container-lowest/70 p-4 mb-6 flex gap-3 items-start" id="archive-hint-online">
+<span class="material-symbols-outlined text-primary shrink-0">smartphone</span>
+<p class="font-body text-sm text-on-surface-variant leading-relaxed">
+                Đang dùng điện thoại? Nên <button class="text-secondary font-bold underline underline-offset-2" id="archive-goto-view">xem album online</button> thay vì tải — điện thoại thường không mở được file RAR.
+            </p>
+</div>
+
+<!-- Danh sách các phần, dựng bằng JS từ KHO_ANH.cacPhan -->
+<div class="space-y-2 mb-5" id="archive-parts"></div>
+
+<!-- Cảnh báo RAR nhiều phần -->
+<div class="rounded-lg border border-secondary/25 bg-secondary/5 p-4 mb-6 flex gap-3 items-start" id="archive-warning">
+<span class="material-symbols-outlined text-secondary shrink-0 text-xl">info</span>
+<p class="font-body text-sm text-on-surface-variant leading-relaxed">
+                Bộ ảnh được chia thành nhiều phần. Phải tải <strong class="text-on-surface">đủ tất cả các phần vào cùng một thư mục</strong> rồi mới giải nén được — thiếu một phần là hỏng cả bộ. Trên máy tính, bấm chuột phải vào phần đầu tiên và chọn giải nén.
+            </p>
+</div>
+
+<a class="hidden btn-glow bg-secondary text-on-secondary w-full px-6 py-3.5 rounded-full font-bold shadow-lg hover:brightness-110 active:scale-95 transition-all items-center justify-center gap-2" id="archive-folder" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-xl">drive_folder_upload</span>
+            Mở thư mục chứa tất cả
+        </a>
+</div>
+</div>
+
 <div id="toast-wrap"></div>
 
 <script>
+/* ============================================================
+   KHO ẢNH — DÁN LINK VÀO ĐÂY
+   ------------------------------------------------------------
+   Để trống thì nút vẫn hiện nhưng báo "chưa có link", không bị vỡ.
+
+   xem      : link xem online (Google Photos shared album hoặc Drive folder).
+              Đây là đường đa số bạn bè sẽ dùng — xem thẳng trên điện thoại,
+              không cần giải nén.
+   thuMuc   : link thư mục chứa các phần RAR, phòng khi ai đó muốn tự tải.
+   cacPhan  : từng phần RAR. Xoá bớt hoặc thêm vào tuỳ số phần bạn có.
+   ============================================================ */
+var KHO_ANH = {
+  xem: '',
+  thuMuc: '',
+  cacPhan: [
+    { ten: 'KyYeu-12A1.part1.rar', dungLuong: '10 GB', link: '' },
+    { ten: 'KyYeu-12A1.part2.rar', dungLuong: '10 GB', link: '' },
+    { ten: 'KyYeu-12A1.part3.rar', dungLuong: '8 GB',  link: '' }
+  ]
+};
+
 /* ============================================================
    SỬA NỘI DUNG LỚP Ở ĐÂY — chỉ cần đổi tên/biệt danh/lời nhắn
    ============================================================ */
@@ -2883,10 +2950,113 @@ var DANH_SACH_THAY_CO = [
     toast('Chọn "Lưu thành PDF" trong hộp thoại in nhé!');
     setTimeout(function () { window.print(); }, 600);
   }
-  document.getElementById('btn-print').addEventListener('click', printPage);
   document.getElementById('btn-share-page').addEventListener('click', sharePage);
   document.querySelectorAll('[data-print]').forEach(function (b) { b.addEventListener('click', printPage); });
   document.querySelectorAll('[data-share]').forEach(function (b) { b.addEventListener('click', sharePage); });
+
+  /* ---------- Kho ảnh: xem online & tải bản gốc ---------- */
+  var archiveModal = document.getElementById('archive-modal');
+
+  function moKhoAnh() {
+    var danhSach = document.getElementById('archive-parts');
+    var coPhan = false;
+    danhSach.textContent = '';
+
+    (KHO_ANH.cacPhan || []).forEach(function (phan, i) {
+      if (!phan.link) { return; }
+      coPhan = true;
+
+      var a = document.createElement('a');
+      a.className = 'flex items-center gap-3 rounded-lg bg-surface-container-lowest/70 hover:bg-surface-container-low px-4 py-3 transition-colors group';
+      a.href = phan.link;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+
+      var icon = document.createElement('span');
+      icon.className = 'material-symbols-outlined text-primary shrink-0';
+      icon.textContent = 'folder_zip';
+
+      var giua = document.createElement('div');
+      giua.className = 'flex-1 min-w-0';
+
+      var ten = document.createElement('p');
+      ten.className = 'font-label text-sm text-on-surface truncate';
+      ten.textContent = phan.ten || ('Phần ' + (i + 1));
+
+      var co = document.createElement('p');
+      co.className = 'font-body text-xs text-outline';
+      co.textContent = phan.dungLuong || '';
+
+      var mui = document.createElement('span');
+      mui.className = 'material-symbols-outlined text-outline group-hover:text-secondary transition-colors shrink-0';
+      mui.textContent = 'download';
+
+      giua.appendChild(ten);
+      if (phan.dungLuong) { giua.appendChild(co); }
+      a.appendChild(icon);
+      a.appendChild(giua);
+      a.appendChild(mui);
+      danhSach.appendChild(a);
+    });
+
+    /* Chưa dán link nào — nói thẳng thay vì hiện danh sách rỗng */
+    if (!coPhan) {
+      var trong = document.createElement('p');
+      trong.className = 'font-body text-sm text-on-surface-variant text-center py-6 italic';
+      trong.textContent = 'Bộ ảnh gốc đang được chuẩn bị, bạn quay lại sau nhé.';
+      danhSach.appendChild(trong);
+    }
+    document.getElementById('archive-warning').classList.toggle('hidden', !coPhan);
+
+    /* Nút mở thư mục chỉ hiện khi có link */
+    var nutThuMuc = document.getElementById('archive-folder');
+    if (KHO_ANH.thuMuc) {
+      nutThuMuc.href = KHO_ANH.thuMuc;
+      nutThuMuc.classList.remove('hidden');
+      nutThuMuc.classList.add('flex');
+    } else {
+      nutThuMuc.classList.add('hidden');
+      nutThuMuc.classList.remove('flex');
+    }
+
+    /* Gợi ý xem online chỉ có nghĩa khi đã có link xem */
+    document.getElementById('archive-hint-online').classList.toggle('hidden', !KHO_ANH.xem);
+
+    archiveModal.classList.remove('hidden');
+    archiveModal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+    if (hasGSAP && !reduceMotion) {
+      gsap.fromTo(archiveModal, { opacity: 0 }, { opacity: 1, duration: .3 });
+      gsap.fromTo('#archive-panel', { y: 40, scale: .94, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: .5, ease: 'back.out(1.4)' });
+    }
+    document.getElementById('archive-close').focus();
+  }
+
+  function dongKhoAnh() {
+    archiveModal.classList.add('hidden');
+    archiveModal.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+
+  function xemAlbum() {
+    if (!KHO_ANH.xem) {
+      toast('Album online chưa sẵn sàng, bạn quay lại sau nhé 🌸');
+      return;
+    }
+    window.open(KHO_ANH.xem, '_blank', 'noopener');
+  }
+
+  document.getElementById('btn-view-album').addEventListener('click', xemAlbum);
+  document.getElementById('btn-download-album').addEventListener('click', moKhoAnh);
+  document.getElementById('archive-close').addEventListener('click', dongKhoAnh);
+  document.getElementById('archive-goto-view').addEventListener('click', function () {
+    dongKhoAnh();
+    xemAlbum();
+  });
+  archiveModal.addEventListener('click', function (e) { if (e.target === archiveModal) { dongKhoAnh(); } });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !archiveModal.classList.contains('hidden')) { dongKhoAnh(); }
+  });
 
   /* ---------- Tim bay ở footer ---------- */
   document.getElementById('footer-heart').addEventListener('click', function (e) {
