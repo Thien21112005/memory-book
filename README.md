@@ -107,6 +107,8 @@ Vercel cannot run Spring Boot — its functions support Node.js, Python, Go and 
 
 ## Before publishing
 
+*A note to myself, kept in the open. Nothing here is asked of anyone reading the repository — these are the conditions this site has to meet before it goes live with the class's real photographs.*
+
 - Replace the 32 placeholder photographs with the class's own images.
 - Ask the class before publishing anything. Several people in these photographs were minors when they were taken.
 - Decide deliberately whether the site is fully public or link-only. A yearbook gains almost nothing from being reachable by the whole internet.
@@ -195,6 +197,8 @@ Hai phần deploy độc lập được dù nằm chung một kho mã — chỉ 
 Vercel không chạy được Spring Boot — functions của nó hỗ trợ Node.js, Python, Go và Ruby, không có Java. Back-end cần nơi chạy được image Docker.
 
 ## Trước khi công bố
+
+*Ghi chú cho chính mình, để công khai luôn. Người đọc kho mã không phải làm gì ở đây cả — đây là những điều kiện trang này phải đạt trước khi lên thật với ảnh của lớp.*
 
 - Thay 32 ảnh tạm bằng ảnh thật của lớp.
 - Hỏi ý kiến cả lớp trước khi công bố. Nhiều người trong những tấm ảnh này còn ở tuổi vị thành niên tại thời điểm chụp.
