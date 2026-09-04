@@ -150,12 +150,12 @@ Cards are generated from these arrays; add or remove entries freely. Avatar colo
 
 ### Photo archive links
 
-The gallery header carries two buttons — **Xem toàn bộ ảnh** (view online) and **Tải bản gốc** (download the originals). Both read from one object at the top of the `<script>` block:
+**Tải bộ ảnh gốc** in the gallery header opens a dialog listing the archive parts. It reads from one object at the top of the `<script>` block:
 
 ```js
 var KHO_ANH = {
-  xem: '',        // Google Photos shared album or Drive folder — viewing link
-  thuMuc: '',     // Drive folder holding the archive parts
+  xem: '',        // optional: an external viewer, e.g. a Google Photos album
+  thuMuc: '',     // link to wherever all the parts live
   cacPhan: [      // the individual parts
     { ten: 'KyYeu-12A1.part1.rar', dungLuong: '10 GB', link: '' },
     …
@@ -163,9 +163,21 @@ var KHO_ANH = {
 };
 ```
 
-Leaving a field empty is safe: the buttons stay visible but explain that the archive is not ready yet, and the parts list, the multi-part warning and the folder button hide themselves. Parts with no `link` are skipped, so you can publish them one at a time as uploads finish.
+The archive is planned to live on **Cloudflare R2**, served from its own subdomain — see [`../docs/MemoryBook-Storage-Media.md`](../docs/MemoryBook-Storage-Media.md). The field only holds URLs, so any host works.
 
-**Prefer the viewing link over the download.** Most classmates open the site on a phone, where a multi-part RAR is close to unusable — iOS cannot extract one without an extra app. A shared album lets them browse and save individual photographs with no extraction at all. The download exists for the few people who want the complete set on a computer.
+Leaving fields empty is safe and degrades in three different ways, deliberately:
+
+| Empty field | What happens |
+| --- | --- |
+| every `link` in `cacPhan` | The dialog says the archive is being prepared; the parts list, the multi-part warning and the folder button all hide |
+| `thuMuc` | The "open the folder" button hides |
+| `xem` | The **Xem album ngoài** button is removed from the page entirely, rather than left as a dead control |
+
+Parts with no `link` are skipped, so they can be published one at a time as uploads finish.
+
+`xem` is normally left empty. It exists only for the case where photographs are *also* published somewhere with its own browsing interface — R2 is object storage, not a gallery, and the Thư viện section of this page is the viewer.
+
+One warning worth keeping in the dialog: a multi-part archive needs **every part in one folder** before it will extract. Missing one part breaks the whole set, and that is the failure people hit most often. Phones generally cannot extract RAR at all without an extra app, which is why viewing on the page comes first and downloading is for people on a computer.
 
 ### Dialogue and text
 
@@ -219,7 +231,7 @@ Accessibility measures in place:
 
 - Messages persist per browser only; a shared, permanent board requires the back-end specified in [`../server/README.md`](../server/README.md).
 - The photograph URLs are temporary placeholders (see [Photographs](#photographs)).
-- The photo archive is hosted externally (Google Drive or Google Photos) and linked from the gallery; the site does not serve the files itself. PDF export is handled through the browser's print dialog.
+- The photo archive is hosted on object storage (Cloudflare R2) and linked from the gallery; the page does not serve the files itself. PDF export is handled through the browser's print dialog.
 - On viewports narrower than 768 px the scene switches to a cropped `viewBox`, so the school building sits outside the visible area.
 
 ## Versioning
@@ -394,12 +406,12 @@ Các thẻ được sinh ra từ hai mảng này; thêm hoặc bớt tuỳ ý. M
 
 ### Liên kết kho ảnh
 
-Đầu mục thư viện có hai nút — **Xem toàn bộ ảnh** và **Tải bản gốc**. Cả hai đọc từ một đối tượng duy nhất đặt ở đầu khối `<script>`:
+Nút **Tải bộ ảnh gốc** ở đầu mục Thư viện mở một hộp thoại liệt kê các phần của bộ ảnh. Nó đọc từ một đối tượng duy nhất đặt ở đầu khối `<script>`:
 
 ```js
 var KHO_ANH = {
-  xem: '',        // album chia sẻ Google Photos hoặc thư mục Drive — link để xem
-  thuMuc: '',     // thư mục Drive chứa các phần của bộ ảnh
+  xem: '',        // tuỳ chọn: trang xem ảnh bên ngoài, ví dụ album Google Photos
+  thuMuc: '',     // link tới chỗ chứa tất cả các phần
   cacPhan: [      // từng phần
     { ten: 'KyYeu-12A1.part1.rar', dungLuong: '10 GB', link: '' },
     …
@@ -407,9 +419,21 @@ var KHO_ANH = {
 };
 ```
 
-Để trống thì vẫn an toàn: nút vẫn hiện nhưng báo là kho ảnh chưa sẵn sàng, còn danh sách phần, cảnh báo nhiều phần và nút mở thư mục tự ẩn đi. Phần nào chưa có `link` thì bị bỏ qua, nên bạn công bố dần từng phần theo tiến độ tải lên cũng được.
+Kho ảnh dự kiến đặt trên **Cloudflare R2**, phục vụ qua một tên miền phụ riêng — xem [`../docs/MemoryBook-Storage-Media.md`](../docs/MemoryBook-Storage-Media.md). Ở đây chỉ nhận URL nên dùng nguồn nào cũng được.
 
-**Nên ưu tiên link xem hơn link tải.** Đa số bạn bè mở trang bằng điện thoại, mà RAR nhiều phần trên điện thoại gần như không dùng được — iOS không giải nén được nếu không cài thêm ứng dụng. Album chia sẻ cho phép xem và lưu từng tấm, không cần giải nén gì cả. Phần tải về dành cho số ít muốn có trọn bộ trên máy tính.
+Để trống vẫn an toàn, và ứng xử khác nhau tuỳ trường hợp — đây là chủ đích:
+
+| Trường để trống | Điều gì xảy ra |
+| --- | --- |
+| tất cả `link` trong `cacPhan` | Hộp thoại báo kho ảnh đang được chuẩn bị; danh sách phần, cảnh báo nhiều phần và nút mở thư mục đều ẩn |
+| `thuMuc` | Nút "Mở thư mục chứa tất cả" ẩn đi |
+| `xem` | Nút **Xem album ngoài** bị gỡ hẳn khỏi trang, thay vì để lại một nút bấm không làm gì |
+
+Phần nào chưa có `link` thì bị bỏ qua, nên công bố dần từng phần theo tiến độ tải lên cũng được.
+
+`xem` thường để trống. Nó chỉ dùng khi bạn *đồng thời* đăng ảnh ở một nơi có giao diện xem riêng — R2 là kho đối tượng chứ không phải trang xem ảnh, và mục Thư viện ngay trên trang này mới là nơi xem.
+
+Một cảnh báo nên giữ trong hộp thoại: bộ nén nhiều phần cần **đủ tất cả các phần trong cùng một thư mục** mới giải nén được. Thiếu một phần là hỏng cả bộ, và đây là lỗi người ta hay mắc nhất. Điện thoại nhìn chung không giải nén được RAR nếu không cài thêm ứng dụng — đó là lý do việc xem ngay trên trang được đặt lên trước, còn tải về là dành cho người dùng máy tính.
 
 ### Lời thoại và câu chữ
 
@@ -463,7 +487,7 @@ Các biện pháp tiếp cận đã áp dụng:
 
 - Lời nhắn chỉ lưu trên từng trình duyệt; muốn có bảng lời nhắn chung và lâu dài thì cần back-end được đặc tả tại [`../server/README.md`](../server/README.md).
 - Đường dẫn ảnh là ảnh tạm (xem mục [Hình ảnh](#hình-ảnh)).
-- Kho ảnh được đặt ở dịch vụ ngoài (Google Drive hoặc Google Photos) và chỉ liên kết từ mục thư viện; trang không tự phục vụ tệp. Việc xuất PDF đi qua hộp thoại in của trình duyệt.
+- Kho ảnh đặt trên kho đối tượng (Cloudflare R2) và chỉ liên kết từ mục Thư viện; trang không tự phục vụ tệp. Việc xuất PDF đi qua hộp thoại in của trình duyệt.
 - Với màn hình hẹp dưới 768 px, tranh động chuyển sang `viewBox` cắt hẹp nên dãy nhà trường nằm ngoài vùng nhìn thấy.
 
 ## Quản lý phiên bản

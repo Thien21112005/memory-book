@@ -162,6 +162,40 @@ S3Client.builder()
     .build();
 ```
 
+### 3.4 Dùng R2 ngay khi chưa có back-end
+
+Back-end còn chưa viết, nhưng bộ ảnh thì cần chia sẻ cho lớp **bây giờ**. Không phải chờ: R2 dùng được độc lập, và làm vậy không phí công — chính cái bucket đó sau này thành kho chính khi API xong.
+
+**Bốn bước:**
+
+```bash
+# 1. Tạo bucket trên Cloudflare R2 (bảng điều khiển), lấy Access Key + Secret
+
+# 2. Cấu hình rclone — chọn loại "s3", nhà cung cấp "Cloudflare R2"
+rclone config
+
+# 3. Đẩy các phần lên. Nhớ dùng tiền tố khó đoán, xem cảnh báo bên dưới.
+rclone copy ./KyYeu-12A1.part1.rar r2:memorybook-public/tai-ve/8f3a9c2e/ --progress
+
+# 4. Gắn tên miền tuỳ chỉnh cho bucket trong phần Settings của R2
+#    → https://anh.<tenmien>/tai-ve/8f3a9c2e/KyYeu-12A1.part1.rar
+```
+
+Dán đường dẫn thu được vào `KHO_ANH` trong `client/index.html` là xong. Front-end không cần biết ảnh đến từ đâu.
+
+> ⚠️ **Bucket công khai nghĩa là ai có đường dẫn đều tải được.** Không có đăng nhập, không có kiểm soát. Với ảnh của học sinh, ba việc tối thiểu:
+>
+> 1. **Dùng tiền tố ngẫu nhiên khó đoán** cho đường dẫn (`/tai-ve/8f3a9c2e/…`), đừng để `/anh/lop-12a1/` — dễ đoán thì coi như công khai hoàn toàn. Đây cũng chính là lý do thiết kế chọn khoá theo mã băm nội dung ở mục 7.1.
+> 2. **Chặn lập chỉ mục**: thêm `robots.txt` chặn toàn bộ trên tên miền phục vụ ảnh, và đặt header `X-Robots-Tag: noindex, noimageindex` bằng Cloudflare Transform Rules.
+> 3. **Cần chặt hơn thì dùng Cloudflare Access** đặt trước tên miền ảnh, hoặc đường dẫn có chữ ký hạn ngắn — nhưng khi đó phải có back-end để ký, tức quay lại thiết kế ở mục 4.
+
+**Hai điều cần biết trước khi bắt đầu:**
+
+- R2 miễn phí 10 GB đầu, nhưng **Cloudflare vẫn yêu cầu thêm phương thức thanh toán** để bật R2. Với 24 GB thì phần vượt khoảng 5.000 đ/tháng — vẫn rẻ hơn Google One một bậc, nhưng cần thẻ.
+- Giai đoạn này **chưa có kiểm duyệt, chưa quét mã độc, chưa bỏ EXIF**. Tệp bạn đẩy lên là tệp người ta tải về, nguyên vẹn. Nếu bộ ảnh có ảnh chụp bằng điện thoại thì **toạ độ GPS còn nguyên trong đó** — cân nhắc chạy `exiftool -gps:all= -overwrite_original *.jpg` trước khi nén và tải lên.
+
+**Về sau đổi gì khi back-end xong:** bucket giữ nguyên, chỉ thêm phân vùng `archive/` và `public/`, và `KHO_ANH` trong front-end được thay bằng lời gọi `GET /api/v1/album`. Cấu trúc nút bấm trên giao diện không đổi.
+
 ---
 
 ## 4. Tải lên 20 MB — không đi qua máy chủ ứng dụng

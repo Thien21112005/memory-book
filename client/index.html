@@ -1503,13 +1503,13 @@
             Lưu giữ tiếng cười trong lớp học và những hạt bụi vàng của buổi chiều tan trường.
         </p>
 <div class="flex flex-wrap justify-center gap-3 mb-4">
-<button class="btn-glow bg-secondary text-on-secondary px-7 py-3.5 rounded-full font-bold shadow-lg shadow-secondary/25 hover:scale-105 transition-transform flex items-center gap-2" id="btn-view-album">
-<span class="material-symbols-outlined">photo_library</span>
-                Xem toàn bộ ảnh
-            </button>
-<button class="bg-surface-container-lowest text-primary px-7 py-3.5 rounded-full font-bold shadow-sm hover:scale-105 transition-transform flex items-center gap-2" id="btn-download-album">
+<button class="btn-glow bg-secondary text-on-secondary px-7 py-3.5 rounded-full font-bold shadow-lg shadow-secondary/25 hover:scale-105 transition-transform flex items-center gap-2" id="btn-download-album">
 <span class="material-symbols-outlined">download</span>
-                Tải bản gốc
+                Tải bộ ảnh gốc
+            </button>
+<button class="bg-surface-container-lowest text-primary px-7 py-3.5 rounded-full font-bold shadow-sm hover:scale-105 transition-transform flex items-center gap-2" id="btn-view-album">
+<span class="material-symbols-outlined">photo_library</span>
+                Xem album ngoài
             </button>
 <button class="bg-surface-container-lowest text-primary px-7 py-3.5 rounded-full font-bold shadow-sm hover:scale-105 transition-transform flex items-center gap-2" id="btn-share-page">
 <span class="material-symbols-outlined">share</span>
@@ -2042,13 +2042,17 @@
 /* ============================================================
    KHO ẢNH — DÁN LINK VÀO ĐÂY
    ------------------------------------------------------------
-   Để trống thì nút vẫn hiện nhưng báo "chưa có link", không bị vỡ.
+   Kho ảnh dự kiến đặt trên Cloudflare R2, phục vụ qua một tên miền
+   riêng (ví dụ https://anh.<tenmien>/…). Chỗ này chỉ nhận link nên
+   dùng nguồn nào cũng được — R2, Drive, OneDrive.
 
-   xem      : link xem online (Google Photos shared album hoặc Drive folder).
-              Đây là đường đa số bạn bè sẽ dùng — xem thẳng trên điện thoại,
-              không cần giải nén.
-   thuMuc   : link thư mục chứa các phần RAR, phòng khi ai đó muốn tự tải.
-   cacPhan  : từng phần RAR. Xoá bớt hoặc thêm vào tuỳ số phần bạn có.
+   cacPhan  : từng phần của bộ ảnh gốc. Phần nào chưa có `link` thì tự
+              bị bỏ qua, nên upload tới đâu công bố tới đó.
+   thuMuc   : link tới chỗ chứa tất cả các phần. Để trống thì nút ẩn.
+   xem      : CHỈ dùng khi bạn có một trang xem ảnh riêng bên ngoài
+              (ví dụ album Google Photos). Với R2 thì thường để trống,
+              vì mục Thư viện ngay trên trang này đã là nơi xem —
+              để trống thì nút "Xem toàn bộ ảnh" tự ẩn đi.
    ============================================================ */
 var KHO_ANH = {
   xem: '',
@@ -3039,14 +3043,19 @@ var DANH_SACH_THAY_CO = [
   }
 
   function xemAlbum() {
-    if (!KHO_ANH.xem) {
-      toast('Album online chưa sẵn sàng, bạn quay lại sau nhé 🌸');
-      return;
-    }
+    if (!KHO_ANH.xem) { return; }
     window.open(KHO_ANH.xem, '_blank', 'noopener');
   }
 
-  document.getElementById('btn-view-album').addEventListener('click', xemAlbum);
+  /* Không có trang xem ngoài thì ẩn hẳn nút, đừng để nút chết trên giao diện.
+     Với kho trên R2 đây là trạng thái bình thường: mục Thư viện phía dưới
+     chính là nơi xem ảnh. */
+  var nutXem = document.getElementById('btn-view-album');
+  if (KHO_ANH.xem) {
+    nutXem.addEventListener('click', xemAlbum);
+  } else {
+    nutXem.remove();
+  }
   document.getElementById('btn-download-album').addEventListener('click', moKhoAnh);
   document.getElementById('archive-close').addEventListener('click', dongKhoAnh);
   document.getElementById('archive-goto-view').addEventListener('click', function () {
